@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="91255dca-02d0-4df2-9be2-9d051583765d" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://localhost:8733/TrackingService/mex" Protocol="mex" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="service.wsdl" MetadataType="Wsdl" ID="4c89d665-e7f0-4f60-b4af-fc0a0070ad97" SourceId="1" SourceUrl="http://localhost:8733/TrackingService/mex" />
+    <MetadataFile FileName="service.xsd" MetadataType="Schema" ID="2b30364f-b568-4946-b85d-c9cf80a1dad6" SourceId="1" SourceUrl="http://localhost:8733/TrackingService/mex" />
+    <MetadataFile FileName="Kernel.Service.xsd" MetadataType="Schema" ID="1dfe8e2e-1678-45d9-9a93-afe2c2b181e5" SourceId="1" SourceUrl="http://localhost:8733/TrackingService/mex" />
+    <MetadataFile FileName="Arrays.xsd" MetadataType="Schema" ID="d0d51b30-d0f4-4e4a-8c2d-df00131f6716" SourceId="1" SourceUrl="http://localhost:8733/TrackingService/mex" />
+    <MetadataFile FileName="service1.xsd" MetadataType="Schema" ID="65662955-74f5-4bb5-b188-41f0e7515c73" SourceId="1" SourceUrl="http://localhost:8733/TrackingService/mex" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

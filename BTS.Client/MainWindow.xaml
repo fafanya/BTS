@@ -1,0 +1,91 @@
+﻿<Window x:Class="BTS.Client.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BTS.Client"
+        mc:Ignorable="d"
+        Title="Barcode Tracking System" Height="450" Width="800" Loaded="Window_Loaded">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="3"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="3"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Row="0" Grid.Column="0" Grid.RowSpan="4">
+            <GroupBox Header="Маршрутные листы" Margin="2">
+                <DataGrid Margin="2" Name="dgRouteSheet" AutoGenerateColumns="False" SelectedValuePath="Key"
+                      SelectionChanged="DgRouteSheet_SelectionChanged" IsReadOnly="True" ColumnWidth="*">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Штрихкод" Binding="{Binding Key}"></DataGridTextColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </GroupBox>
+        </Grid>
+        <GridSplitter Grid.Column="1" Grid.Row="0" Grid.RowSpan="4" HorizontalAlignment="Stretch"></GridSplitter>
+        <GridSplitter Grid.Column="2" Grid.Row="2" HorizontalAlignment="Stretch"></GridSplitter>
+        <Grid Grid.Row="0" Grid.Column="2" Grid.RowSpan="2">
+            <GroupBox Header="Отметки о прохождении точек учёта" Margin="2">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <ToolBarTray Grid.Row="0">
+                        <ToolBar>
+                            <Button Content="Сохранить отчёт" Margin="2" Click="btnPrint_Click"></Button>
+                        </ToolBar>
+                    </ToolBarTray>
+                    <DataGrid Grid.Row="1" Name="dgRouteMark" AutoGenerateColumns="False" ColumnWidth="*"
+                              IsReadOnly="True" Margin="2" SelectedValuePath="Key">
+                        <DataGrid.Columns>
+                            <!--<DataGridTextColumn Header="ID" Binding="{Binding Key}"></DataGridTextColumn>-->
+                            <!--<DataGridTextColumn Header="Штрихкод МЛ" Binding="{Binding Barcode}"></DataGridTextColumn>-->
+                            <DataGridTextColumn Header="Дата" Binding="{Binding Stamp, StringFormat='dd.MM.yyyy HH:ss'}"/>
+                            <DataGridTextColumn Header="Точка учёта" Binding="{Binding RoutePoint}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </GroupBox>
+        </Grid>
+        <Grid Grid.Row="3" Grid.Column="2">
+            <GroupBox Header="Добавление отметки" Margin="2">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Grid.Row="1" Grid.Column="1" Text="Штрихкод" Margin="2"></TextBlock>
+                    <TextBox Text="{Binding Barcode}" Grid.Row="1" Grid.Column="2" Margin="2"></TextBox>
+
+                    <TextBlock Grid.Row="2" Grid.Column="1" Text="Пункт учёта" Margin="2"></TextBlock>
+                    <TextBox Text="{Binding RoutePoint}" Grid.Row="2" Grid.Column="2" Margin="2"></TextBox>
+
+                    <TextBlock Grid.Row="3" Grid.Column="1" Text="Время" VerticalAlignment="Center" Margin="2"></TextBlock>
+                    <DatePicker SelectedDate="{Binding Stamp}" Grid.Row="3" Grid.Column="2" Margin="2"></DatePicker>
+
+                    <StackPanel Grid.Row="4" Grid.Column="2" HorizontalAlignment="Right"  VerticalAlignment="Center">
+                        <Button Name="btnCreate" Content="Создать" Margin="2" Click="btnCreate_Click"></Button>
+                    </StackPanel>
+                </Grid>
+            </GroupBox>
+        </Grid>
+    </Grid>
+</Window>
