@@ -1,8 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Data.Odbc;
 using System.Configuration;
+using System.Collections.Generic;
 
 namespace Kernel.Service
 {
@@ -30,20 +31,20 @@ namespace Kernel.Service
                         if (field.Key == obj.PKField)
                             continue;
 
-                        string p = "p" + i.ToString();
-                        cmd.Parameters.AddWithValue(p, field.Value);
+                        var prm = cmd.Parameters.AddWithValue(field.Key, field.Value);
+
                         fields += field.Key;
-                        values += "@" + p;
+                        values += "?";
 
                         if (i != obj.Fields.Count - 1)
                         {
-                            fields += ", ";
-                            values += ", ";
+                            fields += " , ";
+                            values += " , ";
                         }
                     }
 
                     cmd.CommandText =
-                        "INSERT INTO " + obj.Table + " (" + fields + ") VALUES (" + values + ") RETURNING " + obj.PKField;
+                        "INSERT INTO " + obj.Table + " (" + fields + ") VALUES ( " + values + " ) RETURNING " + obj.PKField;
 
                     object retVal = cmd.ExecuteScalar();
                     return Convert.ToInt32(retVal);
@@ -83,19 +84,58 @@ namespace Kernel.Service
             }
         }
 
+        /*public override void Delete(TStorage obj)
+        {
+            try
+            {
+                using (var conn = new OdbcConnection(ConnectionString))
+                {
+                    conn.Open();
+                    using (var cmd = new OdbcCommand())
+                    {
+                        cmd.Connection = conn;
+
+                        cmd.CommandText =
+                            "DELETE FROM " + obj.Table + " WHERE " + obj.PKField + "=" + obj.ID;
+                        cmd.ExecuteScalar();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }*/
+
         public override void Delete(TStorage obj)
         {
-            using (var conn = new OdbcConnection(ConnectionString))
+            try
             {
+                DataSet dataSet = new DataSet();
+                OdbcConnection conn = new OdbcConnection(ConnectionString);
                 conn.Open();
-                using (var cmd = new OdbcCommand())
-                {
-                    cmd.Connection = conn;
+                OdbcDataAdapter odbcDataAdapter = new OdbcDataAdapter();
+                odbcDataAdapter.SelectCommand = new OdbcCommand("SELECT * FROM " + obj.Table, conn);
+                OdbcCommandBuilder ocb = new OdbcCommandBuilder(odbcDataAdapter);
+                odbcDataAdapter.Fill(dataSet, obj.Table);
+                conn.Close();
 
-                    cmd.CommandText =
-                        "DELETE FROM " + obj.Table + " WHERE " + obj.PKField + "=" + obj.ID;
-                    cmd.ExecuteScalar();
-                }
+                DataTable dt = dataSet.Tables[0];
+                DataColumn[] keyColumns = new DataColumn[1];
+                keyColumns[0] = dt.Columns[obj.PKField];
+                dt.PrimaryKey = keyColumns;
+                DataRow dr = dt.Rows.Find(obj.ID);
+                dr.Delete();
+
+                conn.ConnectionString = ConnectionString;
+                conn.Open();
+                odbcDataAdapter.SelectCommand = new OdbcCommand("SELECT * FROM " + obj.Table, conn);
+                odbcDataAdapter.Update(dataSet, obj.Table);
+                conn.Close();
+            }
+            catch (Exception ex)
+            {
+
             }
         }
 

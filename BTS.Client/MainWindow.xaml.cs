@@ -37,7 +37,10 @@ namespace BTS.Client
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            DataContext = new RouteMark();
+            DataContext = new RouteMark
+            {
+                Stamp = DateTime.Now
+            };
             Refresh();
         }
 
@@ -97,6 +100,16 @@ namespace BTS.Client
         private void DgRouteSheet_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             RefreshRouteMarkList();
+        }
+
+        private void btnDelete_Click(object sender, RoutedEventArgs e)
+        {
+            RouteMark rm = dgRouteMark.SelectedItem as RouteMark;
+            if (rm != null)
+            {
+                TrackingClient.Instance.DeleteRouteMark(rm);
+                RefreshRouteMarkList();
+            }
         }
     }
 }

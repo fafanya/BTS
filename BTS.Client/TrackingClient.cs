@@ -27,6 +27,11 @@ namespace BTS.Client
             return InsertObject(routeMark);
         }
 
+        public void DeleteRouteMark(RouteMark routeMark)
+        {
+            DeleteObject<RouteMark>(routeMark);
+        }
+
         public IEnumerable<RouteMark> LoadRouteMarkList(Dictionary<string, object> filter = null)
         {
             return LoadObjectList<RouteMark>(filter);
@@ -82,7 +87,7 @@ namespace BTS.Client
             IEnumerable<TStorage> tStorageList = tsc.LoadList(tStorage);
 
             List<T> result = new List<T>();
-            foreach(TStorage s in tStorageList)
+            foreach (TStorage s in tStorageList)
             {
                 var ctor = typeof(T).GetConstructor(new Type[] { });
                 var item = ctor.Invoke(new object[] { }) as T;
@@ -112,6 +117,29 @@ namespace BTS.Client
             result.SetKeyValuePairs(tObjStorage.Fields);
 
             return result;
+        }
+
+        public static void DeleteObject<T>(T obj) where T : TObject
+        {
+            try
+            {
+                DBTableAttribute dbTableAttribute =
+                    (DBTableAttribute)Attribute.GetCustomAttribute(typeof(T), typeof(DBTableAttribute));
+
+                TStorage tStorage = new TStorage
+                {
+                    ID = Convert.ToInt32(obj.GetKeyValue()),
+                    Table = dbTableAttribute.Table,
+                    PKField = obj.GetKeyField()
+                };
+
+                TrackingServiceClient tsc = new TrackingServiceClient();
+                tsc.Delete(tStorage);
+            }
+            catch(Exception ex)
+            {
+
+            }
         }
     }
 }

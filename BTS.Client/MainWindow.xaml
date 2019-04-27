@@ -40,6 +40,7 @@
                     <ToolBarTray Grid.Row="0">
                         <ToolBar>
                             <Button Content="Сохранить отчёт" Margin="2" Click="btnPrint_Click"></Button>
+                            <Button Content="Удалить" Margin="2" Click="btnDelete_Click"></Button>
                         </ToolBar>
                     </ToolBarTray>
                     <DataGrid Grid.Row="1" Name="dgRouteMark" AutoGenerateColumns="False" ColumnWidth="*"
